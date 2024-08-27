@@ -110,27 +110,28 @@ void ThreeMatricesMaker(Matrix* data) {
 		RandPull(&data[i]);
 		Print(&data[i]);
 	}
-
 	data[2].data = (int*)calloc(data[1].size_x * data[1].size_y, sizeof(int));
+	printf("%lu, %lu \n", data[2].size_x, data[2].size_y);
+	Print(&data[2]);
 }
 
-int main(int argc, int* argv) {
+int main(int argc, char* argv[]) {
 
 	srand(time_t(NULL));
 
-	Matrix data[] = {};
+	if (argc == 2) {
+		Matrix data[] = {};
 
-	ThreeMatricesMaker(data);
+		ThreeMatricesMaker(data);
 
-	const char* flag = "";
-	printf("'--sum' or '--mul': ");
-	scanf("%s", flag);
-	if (!strcmp(flag, "--sum"))
-		MatrixSum(data);
-	else if (!strcmp(flag, "--mul"))
-		MatrixMul(data);
+		// if (!strcmp(argv[1], "--sum"))
+		// 	MatrixSum(data);
+		// else if (!strcmp(argv[1], "--mul"))
+		// 	MatrixMul(data);
 
-	free(data->data);
+		Print(&data[2]);
+
+	}
 
 	return 0;
 }
