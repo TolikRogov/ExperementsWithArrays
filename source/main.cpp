@@ -2,7 +2,7 @@
 #include <assert.h>
 #include <stdlib.h>
 
-void Print(int* data, size_t size_x, size_t size_y) {
+void Print(int data[][4], size_t size_x, size_t size_y) {
 	for (size_t i = 0; i < size_x; i++) {
 
 		assert( (0 <= i && i < size_x) );
@@ -11,7 +11,7 @@ void Print(int* data, size_t size_x, size_t size_y) {
 
 			assert( (0 <= j && j < size_y) );
 
-			printf("data[%lu][%lu] = %d ", i, j, *(data + i * size_y + j));
+			printf("data[%lu][%lu] = %d ", i, j, data[i][j]);
 		}
 		printf("\n");
 	}
@@ -28,7 +28,7 @@ int main() {
 	size_t size_x = (sizeof(data) / sizeof(data[0])),
 		   size_y = (sizeof(data[0]) / sizeof(data[0][0]));
 
-	Print((int*)data, size_x, size_y);
+	Print(data, size_x, size_y);
 
 	return 0;
 }
