@@ -128,10 +128,20 @@ LinalLibStatus Print(Matrix* data) {
 
 			assert( (0 <= j && j < data->size_j) );
 
-			printf("%2d ", *(data->data + i * data->size_j + j));
+			#ifdef ADDR
+				printf("%2d ", *(*(data->addr + i) + j));
+			#else
+				printf("%2d ", *(data->data + i * data->size_j + j));
+			#endif
 		}
 		printf("\n");
 	}
+
+	printf("----- Указатели на строки ---- \n");
+	for (size_t i = 0; i < data->size_i; i++) {
+		printf("-------> %p \n", *(data->addr + i));
+	}
+
 	return LINAL_LIB_OK;
 }
 
@@ -140,9 +150,8 @@ LinalLibStatus MatrixFill(Matrix* data) {
 	size_t m = data->size_i, n = data->size_j;
 	data->data = (int*)calloc(m * n, sizeof(int));
 
-	if (!data->data) {
+	if (!data->data)
 		return LINAL_LIB_ALLOC_ERROR;
-	}
 
 	for (size_t i = 0; i < m; i++) {
 		for (size_t j = 0; j < n; j++) {
@@ -162,10 +171,15 @@ LinalLibStatus MatricesMaker(Matrix data[], size_t cnt) {
 		printf("m = ");
 		scanf("%lu", &data[i].size_i);
 
+		data[i].addr = (int**)calloc(data[i].size_i, sizeof(int*));
+		if (!data[i].addr)
+			return LINAL_LIB_ALLOC_ERROR;
+
 		printf("n = ");
 		scanf("%lu", &data[i].size_j);
 
 		STATUS(MatrixFill(&data[i]));
+		STATUS(AddrFill(&data[i]));
 		STATUS(Print(&data[i]));
 	}
 
@@ -187,10 +201,17 @@ LinalLibStatus MatricesMaker(Matrix data[], size_t cnt) {
 	}
 
 	data[2].data = (int*)calloc(data[2].size_i * data[2].size_j, sizeof(int));
-
-	if (!data[2].data) {
+	if (!data[2].data)
 		return LINAL_LIB_ALLOC_ERROR;
-	}
+
+	data[2].addr = (int**)calloc(data[2].size_i, sizeof(int*));
+	if (!data[2].data)
+		return LINAL_LIB_ALLOC_ERROR;
+
+	STATUS(AddrFill(&data[2]));
+
+	if (!data[2].data)
+		return LINAL_LIB_ALLOC_ERROR;
 
 	return LINAL_LIB_OK;
 }
@@ -204,6 +225,13 @@ LinalLibStatus Free(Matrix data[]) {
 		data[i].data = NULL;
 	}
 
+	return LINAL_LIB_OK;
+}
+
+LinalLibStatus AddrFill(Matrix* data) {
+	for (size_t i = 0; i < data->size_i; i++) {
+		*(data->addr + i) = (data->data + i * data->size_i);
+	}
 	return LINAL_LIB_OK;
 }
 

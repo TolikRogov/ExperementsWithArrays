@@ -9,9 +9,6 @@
 #define PRINT(error)																\
 	printf("\nLINAL_LIB_STATUS: %s, error code: %d \n\n", Messenger(error), error);
 
-// TODO:
-//	3) Функция создания и печати массива адресов строк матрицы
-
 int main(int argc, char* argv[]) {
 
 	LinalLibStatus status = LINAL_LIB_OK;

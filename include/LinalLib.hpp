@@ -13,9 +13,11 @@ struct Matrix {
 	int* data;
 	size_t size_i;
 	size_t size_j;
+	int** addr;
 };
 
 const char* Messenger(LinalLibStatus status);
+LinalLibStatus AddrFill(Matrix* data);
 LinalLibStatus ModSwitcher(int argc, char* argv[]);
 LinalLibStatus Free(Matrix data[]);
 LinalLibStatus MatrixTrn(Matrix data[]);
