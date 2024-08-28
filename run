@@ -3,5 +3,6 @@
 make clean
 clear
 make
+echo "Enter mod-flag to run the program: --sum, --mul or --trn"
 read mod
 ./mm $mod
